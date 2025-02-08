@@ -1,17 +1,23 @@
 import React from "react";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromWishlist } from "../redux/slice/WishlistSlice";
 import { MdDelete } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { remove } from "../redux/slice/CartSlice";
-import { toast } from "react-hot-toast";
+import {add} from"../redux/slice/CartSlice"
 
-const CartItem = ({ item, itemIndex }) => {
+const WishItems = ({ item }) => {
   const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist.wish);
 
-  const removeFromCart = () => {
-    dispatch(remove(item.id));
-    toast.error("Item is removed from Cart");
-  };
- 
+  function addToCart() {
+    dispatch(add(item));
+    dispatch(removeFromWishlist(item.id));
+    toast.success("Item added to cart successfully");
+  }
+  function removeWishlistItem() {
+    dispatch(removeFromWishlist(item.id));
+  }
+
   return (
     <div>
       <div className="flex items-center p-2 md:p-5 justify-between   mt-2 mb-2 md:mx-5 ">
@@ -21,7 +27,7 @@ const CartItem = ({ item, itemIndex }) => {
           </div>
           <div
             className="w-[100%] space-y-10 self-start
-         md:ml-10 md:w-[70%]"
+             md:ml-10 md:w-[70%]"
           >
             <h1 className="text-xl text-slate-700 font-semibold">
               {item.title}
@@ -33,11 +39,18 @@ const CartItem = ({ item, itemIndex }) => {
             <div className="flex justify-between items-center">
               <p className="font-bold text-green-600 text-lg">${item.price}</p>
               <button
-                onClick={removeFromCart}
+                onClick={removeWishlistItem}
                 className="text-red-800 bg-red-200 rounded-full p-3 mr-3
-            hover:bg-red-400 cursor-pointer transition-transform duration-300"
+                hover:bg-red-400 cursor-pointer transition-transform duration-300"
               >
                 <MdDelete />
+              </button>
+
+              <button
+                onClick={addToCart}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300"
+              >
+                Add To Cart
               </button>
             </div>
           </div>
@@ -48,4 +61,4 @@ const CartItem = ({ item, itemIndex }) => {
   );
 };
 
-export default CartItem;
+export default WishItems;
