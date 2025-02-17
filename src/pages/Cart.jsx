@@ -5,12 +5,9 @@ import CartItem from "../components/CartItem";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state);
-  const [totalAmount, setTotalAmount] = useState(0);
+ 
+  const total=cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  useEffect(() => {
-    console.log("useEffect of cart")
-    setTotalAmount(cart.reduce((ac, curr) => ac + curr.price, 0));
-  }, [cart]);
 
   return (
     <div>
@@ -28,7 +25,7 @@ const Cart = () => {
             })}
           </div>
           <div className="w-[100%] md:w-[40%] mt-5 flex flex-col">
-            <div className="flex flex-col p-5 gap-5 my-14 h-[100%] justify-between">
+            <div className="flex flex-col p-5 gap-5 my-14  justify-between">
               <div className="flex flex-col gap-5">
                 <div className="text-xl text-green-800 font-semibold uppercase">
                   Your Cart
@@ -49,9 +46,9 @@ const Cart = () => {
                 <span className="text-gray-700 font-semibold">
                   Total Amount:
                 </span>{" "}
-                ${totalAmount}
+                ${total}
               </p>
-              <NavLink to={"/"}>
+              <NavLink to={"/checkout"}>
                 <button
                   className="bg-green-700 hover:bg-purple-50 rounded-lg
                       text-white transition duration-300 ease-linear

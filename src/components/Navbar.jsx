@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
+import { Heart } from "lucide-react";
 
 const Navbar = () => {
   const [heart,setHeart]=useState(false)
@@ -13,6 +14,7 @@ const Navbar = () => {
       setHeart(false);
     }
   },[location.pathname])
+  
   return (
     <div>
       <nav className="flex justify-between items-center h-20 max-w-6xl mx-auto">
@@ -41,7 +43,8 @@ const Navbar = () => {
           </NavLink>
           <NavLink to="/wishlist" onClick={()=>setHeart(true)}  >
             {
-            heart?("❤️"):("♡")
+            heart?(<Heart className="w-8 h-8 text-red-300 fill-red-700" />
+            ):(<Heart/>)
             }
           </NavLink>
         </div>
